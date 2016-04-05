@@ -1,10 +1,18 @@
 def fib(n:Int):Int = {
-	def go(i:Int, acc:Int):Int = {
-		if (i==n) acc 
-		else go(i,0) + go(i+1,0)
+	def go(n:Int):Int = n match {
+		case 0 | 1 =>  n
+		case _ => go(n-1) + go(n-2)
 	}
-
-	go(0, 0)
+	go(n)
 }
 
-println(fib(1))
+def fib3( n : Int) : Int = { 
+  def fib_tail( n: Int, a:Int, b:Int): Int = n match {
+    case 0 => a 
+    case _ => fib_tail( n-1, b, a+b )
+  }
+  return fib_tail( n, 0, 1)
+}
+
+println(fib(10))
+println(fib3(10))
