@@ -20,4 +20,4 @@ def dropWhile(l: List[Int], f: Int => Boolean): List[Int] =
 			}
 
 
-println(dropWhile(1::2::1::1::5::Nil, (i:Int) => i==1))
+println(dropWhile(1::1::1::1::5::Nil, (i:Int) => i==1))
