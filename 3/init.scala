@@ -16,3 +16,13 @@ def init1[A](l: List[A]): List[A] = {
 }
 
 println(init1(List(1,2,3,4,5)))
+
+def init2[A](l: List[A]): List[A] = {
+	l match {
+		case Nil => sys.error("ERROR!") 
+		case (_::Nil)   => Nil
+		case h::t  => h::init2(t)
+	}
+}
+
+println(init2(List(1,2,3,4,5)))
