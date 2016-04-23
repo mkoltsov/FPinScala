@@ -50,3 +50,5 @@ def filterViaFlatMap[A](as: List[A])(f: A => Boolean): List[A] = {
 }
 
 println(filterViaFlatMap(1.0::2.0::7.91::Nil)(_%2==0))
+
+def zipWith[A, B](la:List[A], lb:List[b])(f:(A, A) => B)= 
