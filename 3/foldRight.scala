@@ -48,3 +48,7 @@ foldLeft((0 to 100000).toList, 0)(_-_)
 def append[A](ls:List[A], elem:A):List[A] = foldRight(ls, elem::Nil)(_::_)
 
 println(append(List(1,2,3,4), 5))
+
+def concat[A](ls:List[List[A]]):List[A] = foldRight(ls, Nil:List[A]){case (x, acc) => x:::acc}
+
+println(concat(List(List(1,2,3,4), List(5,6,74))))
