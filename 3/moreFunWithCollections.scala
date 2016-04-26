@@ -17,13 +17,13 @@ def foldRight[A,B](as: List[A], z: B)(f: (A, B) => B): B = as match {
 
 println(foldRight(List(1,2,4), Nil:List[Int])((x, acc) => x+1::acc))
 
-def turnToStr(ls:List[Double]):List[Double] = {
-	def go(ls:List[Double], acc:List[String]):List[Double] =
+def turnToStr[A](ls:List[A]):List[String] = {
 	ls match {
-		case Nil => acc
-		case x::xs => x.toString::go(xs, acc) 
+		case Nil => Nil
+		case x::xs => x.toString::turnToStr(xs) 
 	}
-  go(ls, Nil)
 }
 
 println(turnToStr(1.0::2.0::7.91::Nil))
+
+// println(d)
