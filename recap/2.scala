@@ -63,6 +63,7 @@ def dropWhile[A](l: List[A], f: A => Boolean): List[A] = l match {
 println(dropWhile(2::4::6::4::5::Nil, (x:Int)=>x%2==0 ))
 
 def init[A](l: List[A]): List[A] = {
+	@annotation.tailrec
 	def go[A](ls:List[A], acc:List[A]):List[A] = {
 		ls match {
 			case Nil => Nil
@@ -74,4 +75,12 @@ def init[A](l: List[A]): List[A] = {
 	go(l, Nil:List[A])
 }
 
+def init2[A](ls: List[A]): List[A] = ls match {
+	case Nil => sys.error("ERROR")
+	case (_::Nil) => Nil
+	case x::xs => x::init2(xs) 
+}
+
+
 println(init(1::2::3::5::Nil))
+println(init2(1::2::3::5::Nil))
