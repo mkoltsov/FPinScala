@@ -61,3 +61,17 @@ def dropWhile[A](l: List[A], f: A => Boolean): List[A] = l match {
 }
 
 println(dropWhile(2::4::6::4::5::Nil, (x:Int)=>x%2==0 ))
+
+def init[A](l: List[A]): List[A] = {
+	def go[A](ls:List[A], acc:List[A]):List[A] = {
+		ls match {
+			case Nil => Nil
+			case x::Nil => acc.reverse
+			case x::xs => go(xs, x::acc)
+		}
+	}
+
+	go(l, Nil:List[A])
+}
+
+println(init(1::2::3::5::Nil))
