@@ -32,3 +32,32 @@ def uncurry[A,B,C](f: A => B => C): (A, B) => C =
 def compose[A,B,C](f: B => C, g: A => B): A => C
 = (a:A) => f(g(a))
 
+def tail[A](ls:List[A]):List[A] = ls match {
+	case Nil => Nil
+	case x::xs =>xs 
+}
+
+println(tail(1::2::3::4::Nil))
+
+def setHead[A](ls:List[A], head:A):List[A] = ls match {
+	case Nil => Nil
+	case x::xs =>head::xs 
+}
+
+println(setHead(1::2::3::4::Nil, 100))
+
+def drop[A](l: List[A], n: Int): List[A] = l match {
+	case Nil   => Nil
+	case x::xs if n==0 => x::xs
+	case x::xs => drop(xs, n-1)
+}
+
+println(drop(1::2::3::4::5::Nil, 2))
+
+def dropWhile[A](l: List[A], f: A => Boolean): List[A] = l match {
+	case Nil => Nil
+	case x::xs if f(x) => dropWhile(xs, f)
+	case x::xs if !f(x) => x::xs
+}
+
+println(dropWhile(2::4::6::4::5::Nil, (x:Int)=>x%2==0 ))
