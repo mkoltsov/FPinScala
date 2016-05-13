@@ -22,3 +22,13 @@ def isSorted[A](as: Array[A])(ordered: (A,A) => Boolean): Boolean = {
 }
 
 println(isSorted(Array(1,2,3,4))((x,y) => x<y))
+
+def curry[A,B,C](f: (A, B) => C): A => (B => C) = 
+(a) => (b) => f(a,b)
+
+def uncurry[A,B,C](f: A => B => C): (A, B) => C = 
+(a, b)=> f(a)(b)
+
+def compose[A,B,C](f: B => C, g: A => B): A => C
+= (a:A) => f(g(a))
+
