@@ -146,6 +146,10 @@ def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] = as match {
 
 println(flatMap(List(1,2,3))(i =>List(i,i)))
 
-def filterViaFlatMap[A](as: List[A])(f: A => Boolean): List[A] = flatMap(as){case x:A => if f(x) Nil else List(x)}
+def filterViaFlatMap[A](as: List[A])(f: A => Boolean): List[A] = flatMap(as)(x => if (f(x)) Nil else List(x))
+println(filterViaFlatMap(List(1,2,3))(_%2==0))
+
+zipWith[A](lsA:List[A], lsb:List[B])(f:A => A):List[A] = map
+
 
 
