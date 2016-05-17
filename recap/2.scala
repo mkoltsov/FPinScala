@@ -139,4 +139,13 @@ def filter[A](as: List[A])(f: A => Boolean): List[A] = as match {
 val d  = filter(List(1,2,3))(_%2==0)
 println(d)
 
+def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] = as match {
+	case Nil => Nil
+	case x::xs => f(x):::flatMap(xs)(f)
+}
+
+println(flatMap(List(1,2,3))(i =>List(i,i)))
+
+def filterViaFlatMap[A](as: List[A])(f: A => Boolean): List[A] = flatMap(as){case x:A => if f(x) Nil else List(x)}
+
 
