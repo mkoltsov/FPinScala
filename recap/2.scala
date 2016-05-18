@@ -84,3 +84,59 @@ def init2[A](ls: List[A]): List[A] = ls match {
 
 println(init(1::2::3::5::Nil))
 println(init2(1::2::3::5::Nil))
+
+def foldRight[A,B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+	case Nil => z
+	case x::xs => f(x, foldRight(xs,z)(f))
+}
+
+println(foldRight(1::2::3::4::5::Nil, 1)(_*_))
+println(foldRight(1::2::3::4::5::Nil, 0)(_+_))
+
+def foldRightExit(as: List[Int], z: Int)(f: (Int, Int) => Int): Int = as match {
+	case Nil => z
+	case x::xs if x!=0 => z
+	case x::xs => f(x, foldRight(xs,z)(f))
+}
+
+println(foldRightExit(1::2::3::0::5::Nil, 1)(_*_))
+
+println(foldRight(List(1,2,3), Nil:List[Int])(_::_))
+
+def length[A](as: List[A]): Int = foldRight(as, 0)((_ , acc)=>acc+1)
+
+println(length(1::2::3::4::5::6::7::Nil))
+
+def foldLeft[A,B](as: List[A], z: B)(f: (B, A) => B): B = as match {
+	case Nil => z
+	case x::xs => foldLeft(xs, f(z,x))(f)
+}
+
+println(foldLeft(1::2::3::4::5::Nil, 0)(_+_))
+println(foldLeft(1::2::3::4::5::Nil, 1)(_*_))
+println(foldLeft(1::2::3::4::5::Nil, 0)((acc, _)=> acc+1))
+println(foldLeft(1::2::3::4::5::Nil, Nil:List[Int])((acc, x) => x::acc ))
+def append[A](ls:List[A], elem:A):List[A] = foldRight(ls, elem::Nil:List[A])(_::_)
+
+println(append(1::2::3::Nil, 6))
+
+def flatten[A](list:List[List[A]]):List[A] = foldRight(list, Nil:List[A])((_:::_))
+// def flatten[A](list:List[List[A]]):List[A] = foldRight(list, Nil:List[A])(append)
+
+def map[A,B](as: List[A])(f: A => B): List[B] = as match {
+	case Nil => Nil
+	case x::xs => f(x)::map(xs)(f)
+}
+
+println(map(1::2::3::Nil)(_+1))
+
+println(flatten(List(1,2,3)::List(3,2,1)::List(6,2,7)::Nil))
+
+def filter[A](as: List[A])(f: A => Boolean): List[A] = as match {
+	case Nil => Nil
+	case x::xs => if (f(x)) filter(xs)(f) else x::filter(xs)(f)
+}
+val d  = filter(List(1,2,3))(_%2==0)
+println(d)
+
+
