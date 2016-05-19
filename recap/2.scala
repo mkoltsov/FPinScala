@@ -149,14 +149,23 @@ println(flatMap(List(1,2,3))(i =>List(i,i)))
 def filterViaFlatMap[A](as: List[A])(f: A => Boolean): List[A] = flatMap(as)(x => if (f(x)) Nil else List(x))
 println(filterViaFlatMap(List(1,2,3))(_%2==0))
 
-def zipWith[A,B](lsA:List[A], lsb:List[A])(f:(A,A)=>B):List[B] = (lsA, lsb) match {
+def zipWith[A,B](lsA:List[A], lsB:List[A])(f:(A,A)=>B):List[B] = (lsA, lsB) match {
 	case (_, Nil) => Nil
 	case (Nil, _) => Nil
-	case (x::xs, y::ys) => f(x,y)::zipWith(xs, ys)(f) 
+	case (x::xs, y::ys) => f(x, y)::zipWith(xs, ys)(f) 
 }
 
 
 println(zipWith(1::2::3::Nil, 3::4::5::Nil)(_+_))
 
-
+def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean =
+{
+	 
+	 (sup, sub) match {
+		case (Nil,_) => false 
+		case (_, Nil) => false 
+		case (x::xs, y::ys) => if (x==y) hasSubsequence(xs, ys)
+		case (x::xs, y::Nil) => if (x==y) true 
+	}
+}
 
