@@ -107,6 +107,7 @@ def length[A](as: List[A]): Int = foldRight(as, 0)((_ , acc)=>acc+1)
 
 println(length(1::2::3::4::5::6::7::Nil))
 
+@annotation.tailrec
 def foldLeft[A,B](as: List[A], z: B)(f: (B, A) => B): B = as match {
 	case Nil => z
 	case x::xs => foldLeft(xs, f(z,x))(f)
@@ -158,14 +159,27 @@ def zipWith[A,B](lsA:List[A], lsB:List[A])(f:(A,A)=>B):List[B] = (lsA, lsB) matc
 
 println(zipWith(1::2::3::Nil, 3::4::5::Nil)(_+_))
 
-def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean =
-{
-	 
-	 (sup, sub) match {
-		case (Nil,_) => false 
-		case (_, Nil) => false 
-		case (x::xs, y::ys) => if (x==y) hasSubsequence(xs, ys)
-		case (x::xs, y::Nil) => if (x==y) true 
-	}
+def startsWith[A](l:List[A], prefix:List[A]):Boolean = (l, prefix) match {
+	case (_, Nil) => true
+	case (x::xs, y::ys) if x==y => startsWith(xs, ys)
+	case _ =>  false
 }
+
+def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sup match {
+	case Nil => false
+	case _ if startsWith(sup, sub) => true
+	case x::xs => hasSubsequence(xs, sub)
+}
+ 
+ println(hasSubsequence(List(1,2,3,4,5,6,7,8), List(4,5)))
+// def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean =
+// {
+	 
+// 	 (sup, sub) match {
+// 		case (Nil,_) => false 
+// 		case (_, Nil) => false 
+// 		case (x::xs, y::ys) => if (x==y) hasSubsequence(xs, ys)
+// 		case (x::xs, y::Nil) => if (x==y) true 
+// 	}
+// }
 
