@@ -159,19 +159,23 @@ def zipWith[A,B](lsA:List[A], lsB:List[A])(f:(A,A)=>B):List[B] = (lsA, lsB) matc
 
 println(zipWith(1::2::3::Nil, 3::4::5::Nil)(_+_))
 
-def startsWith[A](l:List[A], prefix:List[A]):Boolean = (l, prefix) match {
-	case (_, Nil) => true
-	case (x::xs, y::ys) if x==y => startsWith(xs, ys)
-	case _ =>  false
+def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sup match {
+	case Nil =>  false
+	case _ if startsWith(sup, sub) => true
+	case x::xs => hasSubsequence(xs, sub) 
 }
 
-def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sup match {
-	case Nil => false
-	case _ if startsWith(sup, sub) => true
-	case x::xs => hasSubsequence(xs, sub)
+def startsWith[A](sup: List[A], sub: List[A]): Boolean = (sup, sub) match {
+	case (_, Nil) => true
+	case (x::xs, y::ys) => if (x==y) startsWith(xs, ys) else false 
+	case (Nil, _) => false
+	// case _ => 
 }
  
- println(hasSubsequence(List(1,2,3,4,5,6,7,8), List(4,5)))
+ println(hasSubsequence(List(1,2,3,4,5,6,7,8), List(4,8)))
+ println(hasSubsequence(List(1,2,3,4,5,6,7,8), List(6,7)))
+ println(hasSubsequence(List(1,2,3,4,5,6,7,8), List(3,4)))
+ println(hasSubsequence(List(1,2,3,4,5,6,7,8), List(7,8)))
 // def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean =
 // {
 	 
