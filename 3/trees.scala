@@ -59,8 +59,21 @@ def map[A,B](tr:Tree[A])(f:A=>B):Tree[B] = tr match {
 
 println(map(union1)(_.toString))
 
-def fold[A,B](t: Tree[A])(l: A => B)(b: (B,B) => B): B = {
+def fold[A,B](t: Tree[A])(l: A => B)(b: (B, B) => B): B = t match {
 	case Leaf(v) => l(v)
 	case Branch(le, r) => b(fold(le)(l)(b), fold(r)(l)(b)) 
 }
+
+println(fold(union1)(_.toString)(_+_))
+def treeSize[A](tr:Tree[A]):Int = fold(tr)(x=>1)(1+ _ + _)
+println(treeSize(union1))
+
+def maximum(t:Tree[Int]):Int = fold(t)(x=>x)(_ max _)
+println(maximum(union1))
+
+def depthViaFold(t:Tree[Int]):Int = fold(t)(x=>1)(1+ _ max _)
+println(depthViaFold(union1))
+
+def mapViaFold[A,B](tr:Tree[A])(f:A=>B):Tree[B] = fold(tr)(x=>Leaf(f(x)):Tree[B])(Branch(_,_))
+println(mapViaFold(union1)(_.toString))
 
