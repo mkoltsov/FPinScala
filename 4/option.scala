@@ -1,5 +1,4 @@
-
-	trait Option[+A] 
+sealed	trait Option[+A] 
 {
 	def map[B](f: A => B): Option[B]
 	def flatMap[B](f: A => Option[B]): Option[B]
@@ -7,3 +6,23 @@
 	def orElse[B >: A](ob: => Option[B]): Option[B] 
 	def filter(f: A => Boolean): Option[A]
 }
+
+case class Some[+A](get: A) extends Option[A] {
+	def map[B](f: A => B): Option[B] = get match {
+		case _ => 
+	}
+	
+	def flatMap[B](f: A => Option[B]): Option[B] 
+	def getOrElse[B >: A](default: => B): B
+	def orElse[B >: A](ob: => Option[B]): Option[B] 
+	def filter(f: A => Boolean): Option[A] 
+}
+
+case object None extends Option[Nothing] {
+	def map[B](f: A => B): Option[B] =???
+	def flatMap[B](f: A => Option[B]): Option[B] =???
+	def getOrElse[B >: A](default: => B): B =???
+	def orElse[B >: A](ob: => Option[B]): Option[B] =???
+	def filter(f: A => Boolean): Option[A] =???
+}
+
