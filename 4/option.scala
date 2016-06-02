@@ -57,4 +57,25 @@ def variance(xs: Seq[Double]): Option[Double] = mean(xs).flatMap(x=> mean(xs.map
 
 println(variance(Seq(0,1,2,3,4,5)))
 
-// }
+def lift[A,B](f: A => B): Option[A] => Option[B] = _ map f
+
+val absO: Option[Double] => Option[Double] = lift(math.abs)
+
+println(absO(Some(-1)))
+
+def map2[A,B,C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = a flatMap (aa => b map (bb => f(aa, bb)))
+println(map2(Some(1), Some(3))(_ + _))
+println(map2(None, Some(3))((x,y)=> x.toString + y.toString))
+
+def sequence[A](a: List[Option[A]]): Option[List[A]] =  a match {
+  case Nil => Some(Nil)
+  case x::xs => x.flatMap(h=> sequence(xs).map(h::_))
+}
+
+println(sequence(Some(1)::Some(2)::Nil))
+
+def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = a.foldRight[Option[List[B]]](Some(Nil))((el, acc)=> map2(f(el), acc)(_::_) )
+
+def sequence2[A](a: List[Option[A]]): Option[List[A]] = traverse(a)(x=>x)
+
+
