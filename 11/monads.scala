@@ -12,7 +12,6 @@ val listFunctor = new Functor[List] {
 	def map[A,B](as: List[A])(f: A => B): List[B] = as map f
 }
 
-
 trait Monad[F[_]] extends Functor[F] {
 	def unit[A](a: => A): F[A]
 	def flatMap[A,B](ma: F[A])(f: A => F[B]): F[B]
@@ -108,7 +107,7 @@ def _replicateM[A](n: Int, ma: F[A]): F[List[A]] =
 def replicateM[A](n: Int, ma: F[A]): F[List[A]] =
   sequence(List.fill(n)(ma))
 
-  
+
 /*
 For `Par`, `filterM` filters a list, applying the functions in
 parallel; for `Option`, it filters a list, but allows
